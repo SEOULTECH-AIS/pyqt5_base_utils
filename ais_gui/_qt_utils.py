@@ -135,6 +135,9 @@ def file_n_dir_dialog(parent_widget, dialog_title, default_dir, ext_filter, erro
             directory=default_dir,
             filter=ext_filter)[0]
 
+    for _ct in range(len(_get_data)):
+        _get_data[_ct] = _get_data[_ct].replace("/", _base.SLASH)
+
     if not len(_get_data):
         _answer = make_message_box(
             title="Get File List Error" if ext_filter != "dir" else "Get Directory Error",
