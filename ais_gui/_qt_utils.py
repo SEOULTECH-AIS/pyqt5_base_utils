@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import\
     QWidget, QDialog, QMessageBox, QGroupBox, QFileDialog,\
-    QFrame, QSizePolicy, QHeaderView
+    QFrame, QSizePolicy,\
+    QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QHeaderView
 
 from PyQt5.QtGui import QImage, QPixmap
 
@@ -26,18 +27,29 @@ CUSTOM WIDGET
 
 
 class page(QWidget):
-    def __init__(self):
+    def __init__(self, title):
         super().__init__()
-        self.initUI()
+        self.set_the_GUI(title)
 
     def initUI(self):
-        print("please make the init function")
+        make_message_box(
+            title="GUI ERROR",
+            message="You don't make GUI init. please make the init function",
+            icon_flag="critical",
+            bt_flags="OK")
+        return None
+
+    def set_the_GUI(self, title):
+        _layout = self.initUI()
+        if type(_layout) is not None:
+            self.setLayout(_layout)
+            self.setWindowTitle(title)
 
 
 class subpage(QDialog):
-    def __init__(self):
+    def __init__(self, title):
         super().__init__()
-        self.initUI()
+        self.set_the_GUI(title)
 
     def onOKButtonClicked(self):
         self.accept()
@@ -49,20 +61,87 @@ class subpage(QDialog):
         return super().exec_()
 
     def initUI(self):
-        print("please make the init function")
+        make_message_box(
+            title="GUI ERROR",
+            message="You don't make GUI init. please make the init function",
+            icon_flag="critical",
+            bt_flags="OK")
+        return None
+
+    def set_the_GUI(self, title):
+        _layout = self.initUI()
+        if type(_layout) is not None:
+            self.setLayout(_layout)
+            self.setWindowTitle(title)
 
 
-class sub_section():
-    def __init__(self, name, default_check_option=None):
-        self.cover = QGroupBox(name)
+class sub_section(QGroupBox):
+    def __init__(self, name, default_check_option=None, is_flat=True):
+        super().__init__(name)
         if default_check_option is not None:
-            self.cover.setCheckable(True)
-            self.cover.setChecked(default_check_option)
-        self.layout = None
+            self.setCheckable(True)
+            self.setChecked(default_check_option)
 
-    def set_the_gui(self):
-        self.cover.setLayout(self.layout)
-        self.cover.setFlat(True)
+        self.set_the_GUI(is_flat)
+
+    def initUI(self):
+        make_message_box(
+            title="GUI ERROR",
+            message="You don't make GUI init. please make the init function",
+            icon_flag="critical",
+            bt_flags="OK")
+
+        return None
+
+    def set_the_GUI(self, is_flat):
+        _layout = self.initUI()
+        if type(_layout) is not None:
+            self.setLayout(_layout)
+            self.setFlat(is_flat)
+
+
+class table_module(QTableWidget):
+    def __init__(self, header_text):
+        super().__init__()
+        self.refresh(row=0, header=header_text)
+
+    def refresh(self, row, header=None):
+        if header is not None:
+            # when use table init
+            self.clear()
+            self.setColumnCount(len(header))
+            self.setHorizontalHeaderLabels(header)
+            self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        else:
+            # when use table clear
+            self.clearContents()
+
+        self.setRowCount(row)
+
+    def data_insert(self, row_ct, col_ct, text):
+        self.setItem(row_ct, col_ct, QTableWidgetItem(text))
+
+
+class tree_module(QTreeWidget):
+    def __init__(self, header):
+        self.refresh(row=0, header=header)
+
+    def refresh(self, row, H_header=None):
+        if H_header is not None:
+            # when use table init
+            self.tree.clear()
+            self.tree.setHorizontalHeaderLabels(H_header)
+            self.tree.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        else:
+            # when use table clear
+            self.tree.clearContents()
+
+        self.tree.setRowCount(row)
+
+    def data_insert(self, parent_widget, texts):
+        _item = QTreeWidgetItem(parent_widget)
+        for _ct, text in enumerate(texts):
+            _item.setText(_ct, text)
 
 
 class h_line(QFrame):
@@ -114,6 +193,19 @@ def table_init(table_widget, row, H_header=None):
         table_widget.clearContents()
 
     table_widget.setRowCount(row)
+
+
+def tree_init(tree_widget, row, H_header=None):
+    if H_header is not None:
+        # when use table init
+        tree_widget.clear()
+        tree_widget.setHorizontalHeaderLabels(H_header)
+        tree_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+    else:
+        # when use table clear
+        tree_widget.clearContents()
+
+    tree_widget.setRowCount(row)
 
 
 def file_n_dir_dialog(parent_widget, dialog_title, default_dir, ext_filter, error_massage):
