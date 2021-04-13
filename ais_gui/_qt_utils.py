@@ -130,7 +130,7 @@ class tree_module(QTreeWidget):
         if header is not None:
             # when use table init
             self.clear()
-            self.setHorizontalHeaderLabels(header)
+            self.setHeaderLabels(header)
             self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         else:
             # when use table clear
