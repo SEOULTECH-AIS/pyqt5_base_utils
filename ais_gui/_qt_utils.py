@@ -34,7 +34,7 @@ class page(QWidget):
     def initUI(self):
         make_message_box(
             title="GUI ERROR",
-            message="You don't make GUI init. please make the init function",
+            message="You don't make {} GUI init. please make the init function".format(self.title),
             icon_flag="critical",
             bt_flags=["OK", ])
         return None
@@ -63,7 +63,7 @@ class subpage(QDialog):
     def initUI(self):
         make_message_box(
             title="GUI ERROR",
-            message="You don't make GUI init. please make the init function",
+            message="You don't make {} GUI init. please make the init function".format(self.title),
             icon_flag="critical",
             bt_flags=["OK", ])
         return None
@@ -87,7 +87,7 @@ class sub_section(QGroupBox):
     def initUI(self):
         make_message_box(
             title="GUI ERROR",
-            message="You don't make GUI init. please make the init function",
+            message="You don't make {} GUI init. please make the init function".format(self.title),
             icon_flag="critical",
             bt_flags=["OK", ])
 
