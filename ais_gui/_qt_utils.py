@@ -123,20 +123,20 @@ class table_module(QTableWidget):
 
 
 class tree_module(QTreeWidget):
-    def __init__(self, header):
-        self.refresh(row=0, header=header)
+    def __init__(self, header_text):
+        self.refresh(row=0, header=header_text)
 
-    def refresh(self, row, H_header=None):
-        if H_header is not None:
+    def refresh(self, row, header=None):
+        if header is not None:
             # when use table init
-            self.tree.clear()
-            self.tree.setHorizontalHeaderLabels(H_header)
-            self.tree.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            self.clear()
+            self.setHorizontalHeaderLabels(header)
+            self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         else:
             # when use table clear
-            self.tree.clearContents()
+            self.clearContents()
 
-        self.tree.setRowCount(row)
+        self.setRowCount(row)
 
     def data_insert(self, parent_widget, texts):
         _item = QTreeWidgetItem(parent_widget)
