@@ -22,4 +22,4 @@ Basically, a repository for personal modules related to Python that are frequent
 1. SSH 키 등록
    - 해당 등록 방법의 경우 연구실 서버내 메뉴얼 참조
 2. 명렁어 입력
-   - pip install "git+ssh://git@github.com:gyounghun6612/pyqt5_utils.git"
+   - pip install "git+ssh://git@github.com/gyounghun6612/pyqt5_utils.git"
