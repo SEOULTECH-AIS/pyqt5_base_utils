@@ -7,6 +7,7 @@ from PyQt5.QtGui import QImage, QPixmap
 
 from ais_utils import _base
 from ais_utils import _cv2
+# from ais_utils import _error
 
 MESSAGE_ICON_FLAG = {
     "no": QMessageBox.NoIcon,
@@ -124,23 +125,27 @@ class table_module(QTableWidget):
 
 class tree_module(QTreeWidget):
     def __init__(self, header_text):
+        super().__init__()
         self.refresh(row=0, header=header_text)
 
     def refresh(self, row, header=None):
         if header is not None:
             # when use table init
+            self.clear()
             self.setHeaderLabels(header)
-            self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            self.header().setStretchLastSection(False)
+            self.header().setSectionResizeMode(QHeaderView.Stretch)
         else:
             # when use table clear
             self.clearContents()
 
-        self.setRowCount(row)
-
     def data_insert(self, parent_widget, texts):
         _item = QTreeWidgetItem(parent_widget)
+
         for _ct, text in enumerate(texts):
             _item.setText(_ct, text)
+
+        return _item
 
 
 class h_line(QFrame):
