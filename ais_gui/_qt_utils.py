@@ -36,7 +36,7 @@ class page(QWidget):
             title="GUI ERROR",
             message="You don't make GUI init. please make the init function",
             icon_flag="critical",
-            bt_flags="OK")
+            bt_flags=["OK", ])
         return None
 
     def set_the_GUI(self, title):
@@ -65,7 +65,7 @@ class subpage(QDialog):
             title="GUI ERROR",
             message="You don't make GUI init. please make the init function",
             icon_flag="critical",
-            bt_flags="OK")
+            bt_flags=["OK", ])
         return None
 
     def set_the_GUI(self, title):
@@ -89,7 +89,7 @@ class sub_section(QGroupBox):
             title="GUI ERROR",
             message="You don't make GUI init. please make the init function",
             icon_flag="critical",
-            bt_flags="OK")
+            bt_flags=["OK", ])
 
         return None
 
