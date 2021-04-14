@@ -147,6 +147,29 @@ class tree_module(QTreeWidget):
 
         return _item
 
+    def data_loaction(self, selected_item):
+        def salmon(item, location_list):
+            _p = item.parent()
+            if _p is not None:
+                for _ct_ct in range(_p.childCount()):
+                    if item == _p.child(_ct_ct):
+                        location_list.append(_ct_ct)
+                        break
+                _top_p = salmon(_p, location_list)
+                return _top_p
+            else:
+                return item
+
+        _location = []
+        _selected_top_item = salmon(selected_item, _location)
+
+        for _item_ct in range(self.topLevelItemCount()):
+            if _selected_top_item == self.topLevelItem(_item_ct):
+                _location.append(_item_ct)
+                break
+
+        return _location.reverse()
+
 
 class h_line(QFrame):
     def __init__(self):
