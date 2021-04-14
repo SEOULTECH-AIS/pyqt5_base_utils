@@ -167,8 +167,8 @@ class tree_module(QTreeWidget):
             if _selected_top_item == self.topLevelItem(_item_ct):
                 _location.append(_item_ct)
                 break
-
-        return _location.reverse()
+        _location.reverse()
+        return _location
 
 
 class h_line(QFrame):
