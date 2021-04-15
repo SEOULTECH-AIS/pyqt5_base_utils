@@ -89,7 +89,7 @@ YTOVS = {
     40: {"color": (0x0C, 0x29, 0xB9), "name": "tennis_racket"}}
 
 
-class _label_visualize():
+class _label_dict():
     def __init__(self, label_style):
         self.make_label_dict(label_style)
 
@@ -121,8 +121,8 @@ class _label_visualize():
         id_num = self.inverse_dict[name] if _is_exist else -1
         return _is_exist, id_num
 
-    def id_to_data_dict(self, id_num):
+    def id_to_class_dict(self, id_num):
         _is_exist = id_num in self.label_dict.keys()
-        data_dict = self.label_dict[id_num] if _is_exist else \
+        class_dict = self.label_dict[id_num] if _is_exist else \
             {"color": (0x00, 0x00, 0x00), "name": "Error"}
-        return _is_exist, data_dict
+        return _is_exist, class_dict
