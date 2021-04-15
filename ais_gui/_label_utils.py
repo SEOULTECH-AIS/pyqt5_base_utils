@@ -1,5 +1,7 @@
 from ais_utils import _error
 
+import numpy as np
+
 BDD_100k = {
     1: {"color": (0x00, 0x00, 0x00), "name": "unlabeled or statick"},
     2: {"color": (0x00, 0x4A, 0x6F), "name": "dynamic"},
@@ -127,4 +129,24 @@ class _label_dict():
             {"color": (0x00, 0x00, 0x00), "name": "Error"}
         return _is_exist, class_dict
 
-    # def make_seg_image(self, label_list):
+    def make_label_image(self, label_info_list, label_selction, dispaly_categories, input_img, is_mixing):
+        _displayed_label = [label_info_list[_ct] for _ct in label_selction]
+        _h, _w, _c = np.shape(input_img)
+
+        _base = np.zeros((_h, _w, _c), np.uint8)
+        _seg_bool = np.zeros((_h, _w), np.uint8)
+
+        if "segmentation" in dispaly_categories:
+            for _label in _displayed_label:
+                _info = self.id_to_class_dict(_label["class"])[1]
+                _3c_seg = np.dstack([_label["segmentation"], _label["segmentation"], _label["segmentation"]])
+
+                _base = (_base * (1 - _3c_seg)) + (_info["color"] * _3c_seg)
+                _seg_bool = np.logical_or(_seg_bool, _label["segmentation"])
+
+        if is_mixing:
+            _base = ((0.3 * _base) + (0.7 * input_img)) if np.max(_seg_bool) else input_img
+
+        if "box" in dispaly_categories:
+            for _label in _displayed_label:
+                _info = self.id_to_class_dict(_label["class"])

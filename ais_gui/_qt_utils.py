@@ -222,6 +222,7 @@ def opencv_img_converter(img_file):
 
 def numpy_to_qimg(img):
     _h, _w, _c = img.shape
+    img = _cv2.cv2.cvtColor(img, _cv2.cv2.COLOR_BGR2RGB)
     qImg = QImage(img.data, _w, _h, _w * _c, QImage.Format_RGB888)
     return QPixmap.fromImage(qImg)
 
@@ -229,7 +230,7 @@ def numpy_to_qimg(img):
 def get_image(img_file):
     img = _cv2.read_img(
         file_dir=img_file,
-        color_type=_cv2.COLOR_RGB)
+        color_type=_cv2.COLOR_BGR)
     return img
 
 
