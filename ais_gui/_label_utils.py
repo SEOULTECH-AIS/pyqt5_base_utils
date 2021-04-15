@@ -121,7 +121,7 @@ class _label_visualize():
         id_num = self.inverse_dict[name] if _is_exist else -1
         return _is_exist, id_num
 
-    def id_to_name(self, id_num):
+    def id_to_data_dict(self, id_num):
         _is_exist = id_num in self.label_dict.keys()
-        name = self.label_dict[id_num] if _is_exist else -1
-        return _is_exist, name
+        data_dict = self.label_dict[id_num]["name"] if _is_exist else "Error"
+        return _is_exist, data_dict
