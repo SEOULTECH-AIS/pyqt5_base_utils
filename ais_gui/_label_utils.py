@@ -127,5 +127,4 @@ class _label_dict():
             {"color": (0x00, 0x00, 0x00), "name": "Error"}
         return _is_exist, class_dict
 
-    def make_seg_image(self, label_list):
-        
+    # def make_seg_image(self, label_list):
