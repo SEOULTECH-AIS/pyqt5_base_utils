@@ -123,5 +123,6 @@ class _label_visualize():
 
     def id_to_data_dict(self, id_num):
         _is_exist = id_num in self.label_dict.keys()
-        data_dict = self.label_dict[id_num]["name"] if _is_exist else "Error"
+        data_dict = self.label_dict[id_num] if _is_exist else \
+            {"color": (0x00, 0x00, 0x00), "name": "Error"}
         return _is_exist, data_dict
