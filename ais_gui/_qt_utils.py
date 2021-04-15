@@ -200,12 +200,21 @@ CUSTOM FUNCTION
 
 
 def opencv_img_converter(img_file):
-    img = _cv2.read_img(
-        file_dir=img_file,
-        color_type=_cv2.COLOR_RGB)
+    img = get_image(img_file)
+    return numpy_to_qimg(img)
+
+
+def numpy_to_qimg(img):
     _h, _w, _c = img.shape
     qImg = QImage(img.data, _w, _h, _w * _c, QImage.Format_RGB888)
     return QPixmap.fromImage(qImg)
+
+
+def get_image(img_file):
+    img = _cv2.read_img(
+        file_dir=img_file,
+        color_type=_cv2.COLOR_RGB)
+    return img
 
 
 def table_init(table_widget, row, H_header=None):
