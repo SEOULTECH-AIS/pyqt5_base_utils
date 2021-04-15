@@ -133,7 +133,7 @@ class table_module(QTableWidget):
                 for _tmp_ct in range(_top, _bottom):
                     return_list.append(_tmp_ct)
         else:
-            for _ct in range(self.childCount()):
+            for _ct in range(self.rowCount()):
                 return_list.append(_ct)
 
         return return_list
