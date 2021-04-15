@@ -122,6 +122,22 @@ class table_module(QTableWidget):
     def data_insert(self, row_ct, col_ct, text):
         self.setItem(row_ct, col_ct, QTableWidgetItem(text))
 
+    def get_selected_row_list(self):
+        tmp_list = list(self.selectionModel().selection())
+        return_list = []
+
+        if len(tmp_list):
+            for _range_data in tmp_list:
+                _top = _range_data.top()
+                _bottom = _range_data.bottom() + 1
+                for _tmp_ct in range(_top, _bottom):
+                    return_list.append(_tmp_ct)
+        else:
+            for _ct in range(self.childCount()):
+                return_list.append(_ct)
+
+        return return_list
+
 
 class tree_module(QTreeWidget):
     def __init__(self, header_text):
