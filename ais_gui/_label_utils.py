@@ -1,4 +1,5 @@
 from ais_utils import _error
+from ais_utils import _cv2
 
 import numpy as np
 
@@ -42,14 +43,14 @@ BDD_100k = {
     37: {"color": (0x46, 0x00, 0x00), "name": "truck"}}
 
 CD_net_2014 = {
-    1: {"color": (0x00, 0x00, 0x00), "name": "truck"},
+    1: {"color": (0x00, 0x00, 0x00), "name": "static"},
     2: {"color": (0x32, 0x32, 0x32), "name": "Hard shadow"},
     3: {"color": (0x55, 0x55, 0x55), "name": "Outside region of interest"},
     4: {"color": (0xAA, 0xAA, 0xAA), "name": "Unknown motion"},
     5: {"color": (0xFF, 0xFF, 0xFF), "name": "Motion"}}
 
 YTOVS = {
-    1: {"color": (0x00, 0x00, 0x00), "name": "person"},
+    1: {"color": (0x51, 0x46, 0x6B), "name": "person"},
     2: {"color": (0x00, 0x4A, 0x6F), "name": "giant_panda"},
     3: {"color": (0x51, 0x00, 0x51), "name": "lizard"},
     4: {"color": (0xA0, 0xAA, 0xFA), "name": "parrot"},
@@ -141,12 +142,26 @@ class _label_dict():
                 _info = self.id_to_class_dict(_label["class"])[1]
                 _3c_seg = np.dstack([_label["segmentation"], _label["segmentation"], _label["segmentation"]])
 
-                _base = (_base * (1 - _3c_seg)) + (_info["color"] * _3c_seg)
+                _base = (_base * (1 - _3c_seg)) + (_info["color"] * _3c_seg).astype(np.uint8)
                 _seg_bool = np.logical_or(_seg_bool, _label["segmentation"])
 
         if is_mixing:
-            _base = ((0.3 * _base) + (0.7 * input_img)) if np.max(_seg_bool) else input_img
+            _base = ((0.3 * _base).astype(np.uint8) + (0.7 * input_img).astype(np.uint8))\
+                if np.max(_seg_bool) else input_img
 
         if "box" in dispaly_categories:
             for _label in _displayed_label:
-                _info = self.id_to_class_dict(_label["class"])
+                if _label["box"][:2] is not None:
+                    _info = self.id_to_class_dict(_label["class"])[1]
+
+                    _start_w, _start_h, _delta_w, _delta_h = _label["box"]
+                    _start_point = (int(_start_w), int(_start_h))
+                    _end_point = (int(_start_w + _delta_w), int(_start_h + _delta_h))
+                    _base = _cv2.cv2.rectangle(_base.copy(), _start_point, _end_point, _info["color"], 3)
+
+                    # _s_w, _s_h, _e_w, _e_h = _label["box"]
+                    # pts = np.array([[_s_h, _s_w], [_s_h, _e_w], [_e_h, _e_w], [_e_h, _s_w]], np.int32)
+                    # pts = pts.reshape((-1, 1, 2))
+                    # _base = cv2.polylines(_base, [pts], True, _info["color"], 3)
+
+        return _base
