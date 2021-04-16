@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import\
-    QWidget, QDialog, QMessageBox, QGroupBox, QFileDialog,\
+    QWidget, QDialog, QMessageBox, QGroupBox, QFileDialog, QLabel\
     QFrame, QSizePolicy,\
     QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QHeaderView
 
 from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore.Qt import AlignCenter
 
 from ais_utils import _base
 from ais_utils import _cv2
@@ -207,6 +208,24 @@ class v_line(QFrame):
         self.setFrameShadow(QFrame.Sunken)
         self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
         return
+
+
+class image_module(QLabel):
+    def __init__(self):
+        super().__init__("")
+        self.image_np_data = None
+
+    def file_to_np(self, img_file):
+        self.image_np_data = _cv2.read_img(
+            file_dir=img_file,
+            color_type=_cv2.COLOR_BGR)
+
+    def set_image(self):
+        _h, _w, _c = self.image_np_data.shape
+        img = _cv2.cv2.cvtColor(
+            self.image_np_data, _cv2.cv2.COLOR_BGR2RGB)
+        qImg = QImage(img.data, _w, _h, _w * _c, QImage.Format_RGB888)
+        self.setPixmap(QPixmap.fromImage(qImg))
 
 
 """
