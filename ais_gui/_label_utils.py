@@ -3,6 +3,7 @@ from ais_utils import _cv2
 
 import numpy as np
 
+
 BDD_100k = {
     1: {"color": (0x00, 0x00, 0x00), "name": "unlabeled or statick"},
     2: {"color": (0x00, 0x4A, 0x6F), "name": "dynamic"},
@@ -90,6 +91,12 @@ YTOVS = {
     38: {"color": (0xDE, 0x21, 0x3D), "name": "eagle"},
     39: {"color": (0xCE, 0x46, 0x47), "name": "earless_seal"},
     40: {"color": (0x0C, 0x29, 0xB9), "name": "tennis_racket"}}
+
+SUPORT_LIST = {
+    "CDnet-2014": CD_net_2014,
+    "YTOVS": YTOVS,
+    "BDD-100k": BDD_100k
+}
 
 
 class _label_dict():
