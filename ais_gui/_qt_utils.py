@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import\
     QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QHeaderView
 
 from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtCore.Qt import AlignCenter
 
 from ais_utils import _base
 from ais_utils import _cv2
