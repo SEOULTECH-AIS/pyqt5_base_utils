@@ -100,7 +100,7 @@ class _label_dict():
         if label_style == "BDD-100k":
             self.label_dict = BDD_100k
 
-        elif label_style == "CD-net 2014":
+        elif label_style == "CDnet-2014":
             self.label_dict = CD_net_2014
 
         elif label_style == "YTOVS":
