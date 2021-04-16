@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import\
-    QWidget, QDialog, QMessageBox, QGroupBox, QFileDialog, QLabel\
+    QWidget, QDialog, QMessageBox, QGroupBox, QFileDialog, QLabel,\
     QFrame, QSizePolicy,\
     QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QHeaderView
 
