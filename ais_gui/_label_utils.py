@@ -104,6 +104,7 @@ class _label_dict():
         self.make_label_dict(label_style)
 
     def make_label_dict(self, label_style):
+        self.label_style = label_style
         if label_style == "BDD-100k":
             self.label_dict = BDD_100k
 
@@ -126,12 +127,15 @@ class _label_dict():
             _name = self.label_dict[_tmp_key]["name"]
             self.inverse_dict[_name] = _tmp_key
 
-    def name_to_id(self, name):
+    def id_check(self, ID):
+        return ID in self.label_dict.keys()
+
+    def Class_to_Id(self, name):
         _is_exist = name in self.inverse_dict.keys()
         id_num = self.inverse_dict[name] if _is_exist else -1
         return _is_exist, id_num
 
-    def id_to_class_dict(self, id_num):
+    def Id_to_Calss(self, id_num):
         _is_exist = id_num in self.label_dict.keys()
         class_dict = self.label_dict[id_num] if _is_exist else \
             {"color": (0x00, 0x00, 0x00), "name": "Error"}
@@ -144,13 +148,13 @@ class _label_dict():
         _base = np.zeros((_h, _w, _c), np.uint8)
         _seg_bool = np.zeros((_h, _w), np.uint8)
 
-        if "segmentation" in dispaly_categories:
+        if "seg" in dispaly_categories:
             for _label in _displayed_label:
-                _info = self.id_to_class_dict(_label["class"])[1]
-                _3c_seg = np.dstack([_label["segmentation"], _label["segmentation"], _label["segmentation"]])
+                _info = self.Id_to_Calss(_label["class"])[1]
+                _3c_seg = np.dstack([_label["seg"], _label["seg"], _label["seg"]])
 
                 _base = (_base * (1 - _3c_seg)) + (_info["color"] * _3c_seg).astype(np.uint8)
-                _seg_bool = np.logical_or(_seg_bool, _label["segmentation"])
+                _seg_bool = np.logical_or(_seg_bool, _label["seg"])
 
         if is_mixing:
             _base = ((0.3 * _base).astype(np.uint8) + (0.7 * input_img).astype(np.uint8))\
@@ -159,16 +163,11 @@ class _label_dict():
         if "box" in dispaly_categories:
             for _label in _displayed_label:
                 if _label["box"][:2] is not None:
-                    _info = self.id_to_class_dict(_label["class"])[1]
+                    _info = self.Id_to_Calss(_label["class"])[1]
 
                     _start_w, _start_h, _delta_w, _delta_h = _label["box"]
                     _start_point = (int(_start_w), int(_start_h))
                     _end_point = (int(_start_w + _delta_w), int(_start_h + _delta_h))
                     _base = _cv2.cv2.rectangle(_base.copy(), _start_point, _end_point, _info["color"], 3)
-
-                    # _s_w, _s_h, _e_w, _e_h = _label["box"]
-                    # pts = np.array([[_s_h, _s_w], [_s_h, _e_w], [_e_h, _e_w], [_e_h, _s_w]], np.int32)
-                    # pts = pts.reshape((-1, 1, 2))
-                    # _base = cv2.polylines(_base, [pts], True, _info["color"], 3)
 
         return _base
