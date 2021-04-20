@@ -141,33 +141,12 @@ class _label_dict():
             {"color": (0x00, 0x00, 0x00), "name": "Error"}
         return _is_exist, class_dict
 
-    def make_label_image(self, label_info_list, label_selction, dispaly_categories, input_img, is_mixing):
-        _displayed_label = [label_info_list[_ct] for _ct in label_selction]
-        _h, _w, _c = np.shape(input_img)
+    def make_label_image(self, class_channel_data):
+        _h, _w, _ = np.shape(class_channel_data)
 
-        _base = np.zeros((_h, _w, _c), np.uint8)
-        _seg_bool = np.zeros((_h, _w), np.uint8)
-
-        if "seg" in dispaly_categories:
-            for _label in _displayed_label:
-                _info = self.Id_to_Calss(_label["class"])[1]
-                _3c_seg = np.dstack([_label["seg"], _label["seg"], _label["seg"]])
-
-                _base = (_base * (1 - _3c_seg)) + (_info["color"] * _3c_seg).astype(np.uint8)
-                _seg_bool = np.logical_or(_seg_bool, _label["seg"])
-
-        if is_mixing:
-            _base = ((0.3 * _base).astype(np.uint8) + (0.7 * input_img).astype(np.uint8))\
-                if np.max(_seg_bool) else input_img
-
-        if "box" in dispaly_categories:
-            for _label in _displayed_label:
-                if _label["box"][:2] is not None:
-                    _info = self.Id_to_Calss(_label["class"])[1]
-
-                    _start_w, _start_h, _delta_w, _delta_h = _label["box"]
-                    _start_point = (int(_start_w), int(_start_h))
-                    _end_point = (int(_start_w + _delta_w), int(_start_h + _delta_h))
-                    _base = _cv2.cv2.rectangle(_base.copy(), _start_point, _end_point, _info["color"], 3)
+        _base = np.zeros((_h, _w, 3), np.uint8)
+        for _ct, _key in enumerate(self.label_dict.keys()):
+            _color = self.label_dict[_key]["color"]
+            _base += _color * class_channel_data[:, :, _ct]
 
         return _base
