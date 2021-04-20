@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import\
     QFrame, QSizePolicy,\
     QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QHeaderView
 
-from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, Qpen
+from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, QPen
 
 from PyQt5.QtCore import Qt
 
