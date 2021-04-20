@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import\
 
 from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, QPen, QKeySequence
 
-from PyQt5.QtCore import Qt, pyqtSignal, QObject
+from PyQt5.QtCore import Qt, pyqtSignal
 
 from ais_utils import _base
 from ais_utils import _cv2
@@ -236,7 +236,7 @@ class image_module(QLabel):
         self._present_y = None
 
         self._draw_data = []
-        self.draw_data_add = pyqtSignal(list)
+        self.draw_data_add = pyqtSignal()
 
         self._draw_flag = "Polygon"
         self._pen_info = {
@@ -311,7 +311,7 @@ class image_module(QLabel):
                 "style": self._draw_flag,
                 "x": self._past_x,
                 "y": self._past_y})
-            self.draw_data_add.emit(self._draw_data)
+            self.draw_data_add.emit()
             self._past_x = []
             self._past_y = []
 
@@ -445,7 +445,7 @@ class image_module(QLabel):
                 "style": self._draw_flag,
                 "x": self._past_x,
                 "y": self._past_y})
-            self.draw_data_add.emit(self._draw_data)
+            self.draw_data_add.emit()
             self._past_x = []
             self._past_y = []
 
