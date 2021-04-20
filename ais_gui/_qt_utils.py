@@ -462,6 +462,22 @@ class image_module(QLabel):
         _, draw_image = self._draw()
         self.set_image(draw_image)
 
+    def draw_info_clear(self):
+        self._past_x = []
+        self._past_y = []
+
+        self._present_x = None
+        self._present_y = None
+
+        self._draw_data = []
+
+        self._draw_flag = "Polygon"
+        self._pen_info = {
+            "color": QColor(0x00, 0x00, 0x00),
+            "thick": 3,
+            "line_style": Qt.SolidLine
+        }
+
 
 """
 CUSTOM FUNCTION
