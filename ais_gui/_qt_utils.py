@@ -9,6 +9,7 @@ from PyQt5.QtCore import Qt
 
 from ais_utils import _base
 from ais_utils import _cv2
+
 # from ais_utils import _error
 
 MESSAGE_ICON_FLAG = {
@@ -248,6 +249,21 @@ class image_module(QLabel):
             self.image_np_data, _cv2.cv2.COLOR_BGR2RGB)
         qImg = QImage(img.data, _w, _h, _w * _c, QImage.Format_RGB888)
         self.setPixmap(QPixmap.fromImage(qImg))
+
+    def get_image(self):
+        _tmp_pixmap = self.image_display.pixmap()
+        _tmp_qimg = _tmp_pixmap.toImage()
+
+        _tmp_h = _tmp_qimg.height()
+        _tmp_w = _tmp_qimg.width()
+        _tmp_c = self.image_np_data.shape[2]
+
+        _string_img = _tmp_qimg.bits().asstring(_tmp_w * _tmp_h * _tmp_c)
+        _restore_img = _cv2.np.fromstring(
+            _string_img,
+            dtype=_cv2.np.uint8).reshape((_tmp_h, _tmp_w, _tmp_c))
+
+        return _restore_img
 
     def mousePressEvent(self, QMouseEvent):
         _img = self.pixmap()
