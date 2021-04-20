@@ -293,8 +293,7 @@ class image_module(QLabel):
 
         _draw_option = flag if flag is not None else self._draw_flag
 
-        if _draw_option:
-
+        # if _draw_option:
 
 """
 CUSTOM FUNCTION
