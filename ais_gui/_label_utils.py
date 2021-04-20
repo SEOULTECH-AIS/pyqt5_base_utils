@@ -1,8 +1,5 @@
 from ais_utils import _error
-
 import numpy as np
-import copy
-
 
 BDD_100k = {
     1: {"color": (0x00, 0x00, 0x00), "name": "unlabeled or statick"},
