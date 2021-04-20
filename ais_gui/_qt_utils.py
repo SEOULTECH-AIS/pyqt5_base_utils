@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import\
 
 from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, QPen, QKeySequence
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal, QObject
 
 from ais_utils import _base
 from ais_utils import _cv2
@@ -236,6 +236,7 @@ class image_module(QLabel):
         self._present_y = None
 
         self._draw_data = []
+        self.draw_data_add = pyqtSignal(list)
 
         self._draw_flag = "Polygon"
         self._pen_info = {
@@ -310,7 +311,7 @@ class image_module(QLabel):
                 "style": self._draw_flag,
                 "x": self._past_x,
                 "y": self._past_y})
-
+            self.draw_data_add.emit(self._draw_data)
             self._past_x = []
             self._past_y = []
 
@@ -444,7 +445,7 @@ class image_module(QLabel):
                 "style": self._draw_flag,
                 "x": self._past_x,
                 "y": self._past_y})
-
+            self.draw_data_add.emit(self._draw_data)
             self._past_x = []
             self._past_y = []
 
@@ -485,50 +486,10 @@ CUSTOM FUNCTION
 """
 
 
-def opencv_img_converter(img_file):
-    img = get_image(img_file)
-    return numpy_to_qimg(img)
-
-
-def numpy_to_qimg(img):
-    _h, _w, _c = img.shape
-    img = _cv2.cv2.cvtColor(img, _cv2.cv2.COLOR_BGR2RGB)
-    qImg = QImage(img.data, _w, _h, _w * _c, QImage.Format_RGB888)
-    return QPixmap.fromImage(qImg)
-
-
-def get_image(img_file):
-    img = _cv2.read_img(
-        file_dir=img_file,
-        color_type=_cv2.COLOR_BGR)
-    return img
-
-
-def table_init(table_widget, row, H_header=None):
-    if H_header is not None:
-        # when use table init
-        table_widget.clear()
-        table_widget.setColumnCount(len(H_header))
-        table_widget.setHorizontalHeaderLabels(H_header)
-        table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-    else:
-        # when use table clear
-        table_widget.clearContents()
-
-    table_widget.setRowCount(row)
-
-
-def tree_init(tree_widget, row, H_header=None):
-    if H_header is not None:
-        # when use table init
-        tree_widget.clear()
-        tree_widget.setHorizontalHeaderLabels(H_header)
-        tree_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-    else:
-        # when use table clear
-        tree_widget.clearContents()
-
-    tree_widget.setRowCount(row)
+"""
+CUSTOM DIALOG
+====================
+"""
 
 
 def file_n_dir_dialog(parent_widget, dialog_title, default_dir, ext_filter, error_massage):
@@ -572,12 +533,6 @@ def file_n_dir_dialog(parent_widget, dialog_title, default_dir, ext_filter, erro
                 error_massage)
 
     return default_dir, _get_data
-
-
-"""
-CUSTOM DIALOG
-====================
-"""
 
 
 def make_message_box(title, message, icon_flag, bt_flags):
