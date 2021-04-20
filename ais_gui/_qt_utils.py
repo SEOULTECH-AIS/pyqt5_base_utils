@@ -256,12 +256,14 @@ class image_module(QLabel):
 
         _tmp_h = _tmp_qimg.height()
         _tmp_w = _tmp_qimg.width()
-        _tmp_c = self.image_np_data.shape[2]
+        _tmp_format = _tmp_qimg.format()
 
-        _string_img = _tmp_qimg.bits().asstring(_tmp_w * _tmp_h * _tmp_c)
-        _restore_img = _cv2.np.fromstring(
-            _string_img,
-            dtype=_cv2.np.uint8).reshape((_tmp_h, _tmp_w, _tmp_c))
+        if _tmp_format == 4:  # QImage::Format_RGB32
+            _tmp_c = 4
+            _string_img = _tmp_qimg.bits().asstring(_tmp_w * _tmp_h * _tmp_c)
+            _restore_img = _cv2.np.fromstring(
+                _string_img,
+                dtype=_cv2.np.uint8).reshape((_tmp_h, _tmp_w, _tmp_c))
 
         return _restore_img
 
