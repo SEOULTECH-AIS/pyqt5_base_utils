@@ -1,5 +1,4 @@
 from ais_utils import _error
-from ais_utils import _cv2
 
 import numpy as np
 
@@ -147,6 +146,6 @@ class _label_dict():
         _base = np.zeros((_h, _w, 3), np.uint8)
         for _ct, _key in enumerate(self.label_dict.keys()):
             _color = self.label_dict[_key]["color"]
-            _base += _color * class_channel_data[:, :, _ct]
+            _base += (_color * class_channel_data[:, :, _ct][:, :, np.newaxis]).astype(np.uint8)
 
         return _base

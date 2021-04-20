@@ -289,14 +289,12 @@ class image_module(QLabel):
             self._present_x = None
             self._present_y = None
 
-            draw_image = self.draw()
-
         elif QMouseEvent.button() == Qt.RightButton:
             if len(self._past_x.pop()):
                 self._past_x.pop()
                 self._past_y.pop()
 
-                self.draw()
+        draw_image = self.draw()
 
     def mouseMoveEvent(self, event):
         _img = self.get_image()
@@ -321,10 +319,16 @@ class image_module(QLabel):
 
         _painter = QPainter(_img)
         _painter.setPen(
-            Qpen(self._pen_info["color"], self._pen_info["thick"], self._pen_info["line_style"])
+            QPen(self._pen_info["color"], self._pen_info["thick"], self._pen_info["line_style"])
         )
 
         _draw_option = flag if flag is not None else self._draw_flag
+
+
+
+        painter.end
+        
+        return QPixmap(self.img)
 
         # if _draw_option:
 
