@@ -3,7 +3,9 @@ from PyQt5.QtWidgets import\
     QFrame, QSizePolicy,\
     QTableWidget, QTableWidgetItem, QTreeWidget, QTreeWidgetItem, QHeaderView
 
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtGui import QImage, QPixmap, QPainter, QColor, Qpen
+
+from PyQt5.QtCore import Qt
 
 from ais_utils import _base
 from ais_utils import _cv2
@@ -20,6 +22,12 @@ MESSAGE_BUTTON = {
     "NO": QMessageBox.No,
     "RE": QMessageBox.Retry}
 
+ALIGN = {
+    "Center": Qt.AlignCenter}
+
+DRAW_LINE = {
+    "Solid": Qt.SolidLine
+}
 
 """
 CUSTOM WIDGET
@@ -214,6 +222,21 @@ class image_module(QLabel):
         super().__init__("")
         self.image_np_data = None
 
+        self._past_x = []
+        self._past_y = []
+
+        self._present_x = None
+        self._present_y = None
+
+        self._draw_data = []
+
+        self._draw_flag = None
+        self._pen_info = {
+            "color": QColor(0x00, 0x00, 0x00),
+            "thick": 3,
+            "line_style": Qt.SolidLine
+        }
+
     def file_to_np(self, img_file):
         self.image_np_data = _cv2.read_img(
             file_dir=img_file,
@@ -225,6 +248,52 @@ class image_module(QLabel):
             self.image_np_data, _cv2.cv2.COLOR_BGR2RGB)
         qImg = QImage(img.data, _w, _h, _w * _c, QImage.Format_RGB888)
         self.setPixmap(QPixmap.fromImage(qImg))
+
+    def mousePressEvent(self, QMouseEvent):
+        _img = self.pixmap()
+
+        if QMouseEvent.button() == Qt.LeftButton:
+            self._past_x.append(self._present_x)
+            self._past_y.append(self._present_y)
+
+            self._present_x = None
+            self._present_y = None
+
+            draw_image = self.draw()
+
+        elif QMouseEvent.button() == Qt.RightButton:
+            if len(self._past_x.pop()):
+                self._past_x.pop()
+                self._past_y.pop()
+
+                self.draw()
+
+    def mouseMoveEvent(self, event):
+        self._present_x = event.x()
+        self._present_y = event.y()
+
+        self.draw("Line")
+
+    def draw_setting(self, flag, **kwarg):
+        self._draw_flag = flag
+        for _data in kwarg.keys():
+            if _data == "color":
+                self._pen_info[_data] = QColor(kwarg[_data])
+
+            elif _data in self._pen_info.keys():
+                self._pen_info[_data] = kwarg[_data]
+
+    def draw(self, flag=None):
+        _img = self.pixmap()
+
+        _painter = QPainter(_img)
+        _painter.setPen(
+            Qpen(self._pen_info["color"], self._pen_info["thick"], self._pen_info["line_style"])
+        )
+
+        _draw_option = flag if flag is not None else self._draw_flag
+
+        if _draw_option:
 
 
 """
