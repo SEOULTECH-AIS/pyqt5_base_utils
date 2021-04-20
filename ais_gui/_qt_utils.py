@@ -221,6 +221,7 @@ class v_line(QFrame):
 class image_module(QLabel):
     def __init__(self):
         super().__init__("")
+        self.padding = 3
         self.image_np_data = None
 
         self._past_x = []
@@ -247,10 +248,22 @@ class image_module(QLabel):
         _h, _w, _c = self.image_np_data.shape
         img = _cv2.cv2.cvtColor(
             self.image_np_data, _cv2.cv2.COLOR_BGR2RGB)
-        qImg = QImage(img.data, _w, _h, _w * _c, QImage.Format_RGB888)
+
+        _pad = self.padding
+        _pad_img = _cv2.np.zeros(
+            (_h + 2 * _pad, _w + 2 * _pad, _c))
+
+        _pad_img[_pad: -_pad, _pad: -_pad, :] = img
+
+        qImg = QImage(
+            _pad_img.data,
+            _w + 2 * _pad,
+            _h + 2 * _pad,
+            (_h + 2 * _pad) * _c,
+            QImage.Format_RGB888)
         self.setPixmap(QPixmap.fromImage(qImg))
 
-    def get_image(self):
+    def get_image(self, is_pad=False):
         _tmp_pixmap = self.pixmap()
         _tmp_qimg = _tmp_pixmap.toImage()
 
@@ -265,11 +278,10 @@ class image_module(QLabel):
                 _string_img,
                 dtype=_cv2.np.uint8).reshape((_tmp_h, _tmp_w, _tmp_c))
 
-        return _restore_img
+        _pad = self.padding
+        return _restore_img if is_pad else _restore_img[_pad: -_pad, _pad: -_pad, :]
 
     def mousePressEvent(self, QMouseEvent):
-        _img = self.pixmap()
-
         if QMouseEvent.button() == Qt.LeftButton:
             self._past_x.append(self._present_x)
             self._past_y.append(self._present_y)
@@ -287,6 +299,9 @@ class image_module(QLabel):
                 self.draw()
 
     def mouseMoveEvent(self, event):
+        _img = self.get_image()
+        _img = _img[:, :, :3] if _img.shape[2] == 4 else _img
+
         self._present_x = event.x()
         self._present_y = event.y()
 
