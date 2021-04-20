@@ -251,12 +251,12 @@ class image_module(QLabel):
         self.setPixmap(QPixmap.fromImage(qImg))
 
     def get_image(self):
-        _tmp_pixmap = self.image_display.pixmap()
+        _tmp_pixmap = self.pixmap()
         _tmp_qimg = _tmp_pixmap.toImage()
 
         _tmp_h = _tmp_qimg.height()
         _tmp_w = _tmp_qimg.width()
-        _tmp_c = self.image_np_data.shape[2]
+        _tmp_c = self.image_np_data.shape()[2]
 
         _string_img = _tmp_qimg.bits().asstring(_tmp_w * _tmp_h * _tmp_c)
         _restore_img = _cv2.np.fromstring(
