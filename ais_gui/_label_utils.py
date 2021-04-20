@@ -1,6 +1,7 @@
 from ais_utils import _error
 
 import numpy as np
+import copy
 
 
 BDD_100k = {
