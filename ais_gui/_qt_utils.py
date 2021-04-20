@@ -258,9 +258,9 @@ class image_module(QLabel):
         self._draw_flag = flag
         for _data in kwarg.keys():
             if _data == "color":
-                _b = [_data][0]
-                _g = [_data][1]
-                _r = [_data][2]
+                _b = kwarg[_data][0]
+                _g = kwarg[_data][1]
+                _r = kwarg[_data][2]
                 self._pen_info[_data] = QColor(_b, _g, _r)
 
             elif _data == "line_style":
