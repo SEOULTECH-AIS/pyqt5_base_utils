@@ -420,12 +420,6 @@ class image_module(QLabel):
 
                     is_end = True
 
-                _left = min(_p1_x, _p2_x)
-                _right = max(_p1_x, _p2_x)
-
-                _top = min(_p1_y, _p2_y)
-                _bottom = max(_p1_y, _p2_y)
-
                 _painter.drawEllipse(_c_x, _c_y, abs(_o_x - _c_x), abs(_o_y - _c_y))
 
             _painter.end()
