@@ -351,13 +351,18 @@ class image_module(QLabel):
 
             # draw polygon
             elif _draw_option == "Polygon":
-                _xs = self._past_x + [self._present_x, ]
-                _ys = self._past_y + [self._present_y, ]
-
-                if len(self._past_x) == 2:
+                if len(self._past_x) == 3:
                     _start = [self._past_x[0], self._past_y[0]]
                     _end = [self._past_x[-1], self._past_y[-1]]
                     is_end = _start == _end
+
+                if is_end:
+                    _xs = self._past_x
+                    _ys = self._past_y
+
+                else:
+                    _xs = self._past_x + [self._present_x, ]
+                    _ys = self._past_y + [self._present_y, ]
 
                 _st_x = _xs[0]
                 _st_y = _ys[0]
