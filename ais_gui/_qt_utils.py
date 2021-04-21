@@ -405,22 +405,25 @@ class image_module(QLabel):
             # draw circle
             elif _draw_option == "Circle":
                 if len(self._past_x) == 1:  # preview
-                    _c_x = self._past_x[0]
-                    _c_y = self._past_y[0]
+                    _p1_x = self._past_x[0]
+                    _p1_y = self._past_y[0]
 
-                    _o_x = self._present_x
-                    _o_y = self._present_y
+                    _p2_x = self._present_x
+                    _p2_y = self._present_y
 
                 elif len(self._past_x) == 2:  # draw
-                    _c_x = self._past_x[0]
-                    _c_y = self._past_y[0]
+                    _p1_x = self._past_x[0]
+                    _p1_y = self._past_y[0]
 
-                    _o_x = self._past_x[1]
-                    _o_y = self._past_y[1]
+                    _p2_x = self._past_x[1]
+                    _p2_y = self._past_y[1]
 
                     is_end = True
 
-                _painter.drawEllipse(_c_x, _c_y, abs(_o_x - _c_x), abs(_o_y - _c_y))
+                _R_x = abs(_p1_x - _p2_x)
+                _R_y = abs(_p1_y - _p2_y)
+
+                _painter.drawEllipse(_p1_x - _R_x, _p1_y - _R_y, 2 * _R_x, 2 * _R_y)
 
             _painter.end()
 
