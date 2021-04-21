@@ -223,6 +223,8 @@ class v_line(QFrame):
 
 
 class image_module(QLabel):
+    draw_data_add = pyqtSignal()
+
     def __init__(self):
         super().__init__("")
         self.padding = 20
@@ -236,7 +238,6 @@ class image_module(QLabel):
         self._present_y = None
 
         self._draw_data = []
-        self.draw_data_add = pyqtSignal()
 
         self._draw_flag = "Polygon"
         self._pen_info = {
