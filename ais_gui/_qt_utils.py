@@ -135,7 +135,7 @@ class table_module(QTableWidget):
     def data_insert(self, row_ct, col_ct, text):
         self.setItem(row_ct, col_ct, QTableWidgetItem(text))
 
-    def get_selected_row_list(self):
+    def get_selected_row_list(self, not_selected_is_all=True):
         tmp_list = list(self.selectionModel().selection())
         return_list = []
 
@@ -145,7 +145,7 @@ class table_module(QTableWidget):
                 _bottom = _range_data.bottom() + 1
                 for _tmp_ct in range(_top, _bottom):
                     return_list.append(_tmp_ct)
-        else:
+        elif not_selected_is_all:
             for _ct in range(self.rowCount()):
                 return_list.append(_ct)
 
