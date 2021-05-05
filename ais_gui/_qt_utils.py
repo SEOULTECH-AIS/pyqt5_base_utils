@@ -90,15 +90,15 @@ class subpage(QDialog):
 
 
 class sub_section(QGroupBox):
-    def __init__(self, name, default_check_option=None, is_flat=True):
+    def __init__(self, name, default_check_option=None, is_flat=True, **more_info):
         super().__init__(name)
         if default_check_option is not None:
             self.setCheckable(True)
             self.setChecked(default_check_option)
 
-        self.set_the_GUI(is_flat)
+        self.set_the_GUI(is_flat, **more_info)
 
-    def initUI(self):
+    def initUI(self, **more_info):
         make_message_box(
             title="GUI ERROR",
             message="You don't make {} GUI init. please make the init function".format(self.title),
@@ -107,7 +107,7 @@ class sub_section(QGroupBox):
 
         return None
 
-    def set_the_GUI(self, is_flat):
+    def set_the_GUI(self, is_flat, **more_info):
         _layout = self.initUI()
         if type(_layout) is not None:
             self.setLayout(_layout)
