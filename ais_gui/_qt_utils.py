@@ -108,7 +108,7 @@ class sub_section(QGroupBox):
         return None
 
     def set_the_GUI(self, is_flat, **more_info):
-        _layout = self.initUI()
+        _layout = self.initUI(**more_info)
         if type(_layout) is not None:
             self.setLayout(_layout)
             self.setFlat(is_flat)
