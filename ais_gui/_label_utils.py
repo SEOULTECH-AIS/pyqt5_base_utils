@@ -246,7 +246,7 @@ class _label_dict():
 
         elif label_style == "YTOVS":
             self.label_dict = YTOVS
-        
+
         elif label_style == "COCO":
             self.label_dict = COCO
 
@@ -254,8 +254,7 @@ class _label_dict():
             _error.Custom_Variable_Error(
                 loacation="label utils / visualize",
                 parameters=str(label_style),
-                detail="this data set label is not supported"
-            )
+                detail="this data set label is not supported")
 
         self.inverse_dict = {}
 
