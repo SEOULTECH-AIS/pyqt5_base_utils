@@ -199,6 +199,14 @@ class tree_module(QTreeWidget):
         _location.reverse()
         return _location
 
+    def location_to_data(self, location):
+        _item = self.topLevelItem(location[0])
+        if len(location) != 1:
+            for _index in location[1:]:
+                _item.child(_index)
+
+        return _item
+
 
 class h_line(QFrame):
     def __init__(self):
