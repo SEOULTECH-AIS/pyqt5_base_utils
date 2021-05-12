@@ -176,7 +176,7 @@ class tree_module(QTreeWidget):
 
         return _item
 
-    def data_loaction(self, selected_item):
+    def data_location(self, selected_item):
         def salmon(item, location_list):
             _p = item.parent()
             if _p is not None:
