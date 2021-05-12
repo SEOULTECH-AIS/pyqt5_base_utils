@@ -201,7 +201,7 @@ class tree_module(QTreeWidget):
 
     def location_to_data(self, location):
         _item = self.topLevelItem(location[0])
-        if len(location) != 1:
+        if len(location) > 1:
             for _index in location[1:]:
                 _item.child(_index)
 
