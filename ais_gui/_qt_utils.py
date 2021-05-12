@@ -344,8 +344,8 @@ class image_module(QLabel):
                     _p1_x = self._past_x[0]
                     _p1_y = self._past_y[0]
 
-                    _p2_x = self._present_x
-                    _p2_y = self._present_y
+                    _p2_x = self._present_x if self._present_x is not None else 0
+                    _p2_y = self._present_y if self._present_y is not None else 0
 
                 elif len(self._past_x) == 2:  # draw
                     _p1_x = self._past_x[0]
@@ -370,8 +370,11 @@ class image_module(QLabel):
                     _ys = self._past_y
 
                 else:
-                    _xs = self._past_x + [self._present_x, ]
-                    _ys = self._past_y + [self._present_y, ]
+                    _tmp_x = self._present_x if self._present_x is not None else 0
+                    _tmp_y = self._present_y if self._present_y is not None else 0
+
+                    _xs = self._past_x + [_tmp_x, ]
+                    _ys = self._past_y + [_tmp_y, ]
 
                 _st_x = _xs[0]
                 _st_y = _ys[0]
@@ -387,8 +390,8 @@ class image_module(QLabel):
                     _p1_x = self._past_x[0]
                     _p1_y = self._past_y[0]
 
-                    _p2_x = self._present_x
-                    _p2_y = self._present_y
+                    _p2_x = self._present_x if self._present_x is not None else 0
+                    _p2_y = self._present_y if self._present_y is not None else 0
 
                 elif len(self._past_x) == 2:  # draw
                     _p1_x = self._past_x[0]
@@ -440,8 +443,8 @@ class image_module(QLabel):
     def mousePressEvent(self, QMouseEvent):
         # make draw data
         if QMouseEvent.button() == Qt.LeftButton:
-            self._past_x.append(self._present_x)
-            self._past_y.append(self._present_y)
+            self._past_x.append(self._present_x if self._present_x is not None else 0)
+            self._past_y.append(self._present_y if self._present_y is not None else 0)
 
         elif QMouseEvent.button() == Qt.RightButton:
             if len(self._past_x):
