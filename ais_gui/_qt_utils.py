@@ -271,7 +271,7 @@ class image_module(QLabel):
                 _b = kwarg[_data][0]
                 _g = kwarg[_data][1]
                 _r = kwarg[_data][2]
-                self._pen_info[_data] = QColor(_b, _g, _r)
+                self._pen_info[_data] = QColor(_r, _g, _b)
 
             elif _data == "line_style":
                 self._pen_info[_data] = _DRAW_LINE[kwarg[_data]]
